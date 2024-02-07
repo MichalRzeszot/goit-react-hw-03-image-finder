@@ -32,6 +32,7 @@ class App extends Component {
 
   fetchImages = async () => {
     this.setState({ isLoading: true });
+    if (this.state.isLoading) return;
 
     const { searchQuery, page } = this.state;
     const apiKey = '41266476-bb46a0bfc74cc3a1da8946be1';
@@ -43,7 +44,6 @@ class App extends Component {
       const response = await axios.get(url);
       this.setState(prevState => ({
         images: [...prevState.images, ...response.data.hits],
-        page: prevState.page + 1,
       }));
     } catch (error) {
       console.error('Error fetching data: ', error);
@@ -60,7 +60,14 @@ class App extends Component {
   };
 
   handleLoadMore = () => {
-    this.fetchImages();
+    this.setState(
+      prevState => ({
+        page: prevState.page + 1,
+      }),
+      () => {
+        this.fetchImages();
+      }
+    );
   };
 
   render() {
