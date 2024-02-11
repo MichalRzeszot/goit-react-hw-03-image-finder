@@ -31,10 +31,12 @@ class App extends Component {
   };
 
   fetchImages = async () => {
-    this.setState({ isLoading: true });
+    const { searchQuery, page } = this.state;
+
     if (this.state.isLoading) return;
 
-    const { searchQuery, page } = this.state;
+    this.setState({ isLoading: true });
+
     const apiKey = '41266476-bb46a0bfc74cc3a1da8946be1';
     const url = `https://pixabay.com/api/?q=${encodeURIComponent(
       searchQuery
@@ -61,15 +63,12 @@ class App extends Component {
 
   handleLoadMore = () => {
     this.setState(
-      prevState => ({
-        page: prevState.page + 1,
-      }),
+      prevState => ({ page: prevState.page }),
       () => {
         this.fetchImages();
       }
     );
   };
-
   render() {
     const { images, isLoading, showModal, largeImageURL } = this.state;
     return (
