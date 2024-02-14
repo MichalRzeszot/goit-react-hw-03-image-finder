@@ -62,12 +62,7 @@ class App extends Component {
   };
 
   handleLoadMore = () => {
-    this.setState(
-      prevState => ({ page: prevState.page }),
-      () => {
-        this.fetchImages();
-      }
-    );
+    this.setState(prevState => ({ page: prevState.page + 1 }));
   };
   render() {
     const { images, isLoading, showModal, largeImageURL } = this.state;
